@@ -5,7 +5,7 @@
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.30+-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/Tests-16%20Passed-success.svg)](FruitQualityDashboard/tests)
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Streamlit%20Cloud-2563EB?logo=streamlit&logoColor=white)](#-live-cloud-deployment)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Streamlit%20Cloud-2563EB?logo=streamlit&logoColor=white)](https://fruit-quality-grading-maskrcnn.streamlit.app/)
 
 > An end-to-end deep learning and computer vision framework for autonomous fruit surface defect segmentation, pixel-accurate surface defect quantification, and industrial quality grading using a custom **Mask R-CNN (ResNet-50 FPN v2)** enhanced with a **Convolutional Block Attention Module (CBAM)**.
 
@@ -13,7 +13,7 @@
 
 ## 📸 Live Dashboard Preview
 
-Demonstration on a rotten apple sample using our custom CBAM Mask R-CNN model:
+Demonstration on a defective apple sample using our custom CBAM Mask R-CNN model:
 
 | Multi-Panel Instance Segmentation & Defect Isolation | Quality Grading & Executive Metrics Summary |
 |:---:|:---:|
@@ -35,27 +35,13 @@ Demonstration on a rotten apple sample using our custom CBAM Mask R-CNN model:
 
 ## 🌐 Live Cloud Deployment
 
-This dashboard can be accessed online or deployed in minutes for free:
+The application is deployed and running live on **Streamlit Community Cloud**:
 
-### 🚀 [Click Here to Launch Live App (Streamlit Cloud)](https://share.streamlit.io/)
-*(Replace this URL with your deployed Streamlit Community Cloud link after following the deployment steps below)*
+### 🚀 [Launch Live App: fruit-quality-grading-maskrcnn.streamlit.app](https://fruit-quality-grading-maskrcnn.streamlit.app/)
 
-### How to Deploy Your Own Live Instance (Free, 3 Minutes)
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://fruit-quality-grading-maskrcnn.streamlit.app/)
 
-#### Option A: Streamlit Community Cloud (Recommended)
-1. Fork or push this repository to your GitHub account.
-2. Visit [share.streamlit.io](https://share.streamlit.io/) and log in with your GitHub account.
-3. Click **New app**.
-4. Select:
-   - **Repository:** `your-username/Fruit-Quality-Grading-MaskRCNN`
-   - **Branch:** `main`
-   - **Main file path:** `FruitQualityDashboard/app.py`
-5. Click **Deploy!** Your cloud dashboard will be live within 2 minutes.
-
-#### Option B: Hugging Face Spaces (Streamlit / Docker)
-1. Create a free account on [Hugging Face](https://huggingface.co/).
-2. Create a **New Space**, choose **Streamlit** as the SDK, and connect your GitHub repository.
-3. The Space will automatically build the environment and serve the application globally.
+> Users can upload fruit photographs and evaluate surface defect quantification in real time directly from any desktop browser or mobile device without installing local dependencies.
 
 ---
 
@@ -67,7 +53,8 @@ This dashboard can be accessed online or deployed in minutes for free:
 ├── .gitignore                # Production ignore patterns for caches, venvs, and outputs
 ├── LICENSE                   # Open-source MIT License
 ├── README.md                 # Project documentation and deployment manual
-├── requirements.txt          # Python dependency specifications
+├── packages.txt              # Debian packages for Streamlit Cloud (git-lfs)
+├── requirements.txt          # Python dependency specifications with CPU wheel index
 ├── setup_and_run.bat         # 1-Click Windows 11 virtual environment & launch script
 └── FruitQualityDashboard/
     ├── app.py                # Streamlit UI & executive light theme dashboard
@@ -75,6 +62,7 @@ This dashboard can be accessed online or deployed in minutes for free:
     ├── inference.py          # Preprocessing, forward pass, and defect-to-fruit association
     ├── grading.py            # Objective disjoint grading rules & Rotten override logic
     ├── visualization.py      # High-resolution overlays, defect contours, and summary cards
+    ├── packages.txt          # Container dependencies
     ├── requirements.txt      # Dashboard-specific dependency requirements
     ├── setup_and_run.bat     # Local launcher
     ├── .streamlit/
@@ -176,7 +164,7 @@ The application applies disjoint numeric intervals matching commercial agricultu
 <p align="center">
   <img src="assets/demo_metric.png" alt="Quality Grading & Decision Metrics Summary" width="95%">
   <br>
-  <em>Figure 2: Automated quality grading decision card, executive metrics summary, and structured per-fruit inspection results table.</em>
+  <em>Figure 1: Automated quality grading decision card, executive metrics summary, and structured per-fruit inspection results table.</em>
 </p>
 
 ---
@@ -191,7 +179,7 @@ The dashboard features an executive light theme with high-contrast typography:
 <p align="center">
   <img src="assets/demo_segmentation.png" alt="Multi-Panel Segmentation Inspection" width="95%">
   <br>
-  <em>Figure 1: Multi-panel visual inspection demonstrating simultaneous fruit instance detection and defect isolation on a defective apple.</em>
+  <em>Figure 2: Multi-panel visual inspection demonstrating simultaneous fruit instance detection and defect isolation on a defective apple.</em>
 </p>
 
 ---
@@ -203,38 +191,6 @@ Export inspection records at the bottom of the dashboard:
 2. **Results Table (CSV):** Tabular data with confidence scores, pixel counts, defect percentages, applied conditions, and final grades.
 3. **Structured JSON Report:** Complete metadata including image dimensions, detection thresholds, bounding box coordinates, and pixel areas.
 4. **Summary Card Graphic (PNG):** An executive summary graphic suitable for research papers, presentations, or printouts.
-
----
-
-## 📦 Pushing Model Weights with Git LFS
-
-The trained model checkpoint (`best_maskrcnn_cbam_fpn.pth`) is **175.6 MB**. Standard GitHub commits reject files over 100 MB. This repository is pre-configured with **Git LFS (Large File Storage)**.
-
-### First-Time Git Push Instructions
-
-Run the following commands in your terminal:
-
-```powershell
-# 1. Initialize Git repository
-git init
-
-# 2. Configure Git LFS (already tracked in .gitattributes)
-git lfs install
-git lfs track "*.pth"
-
-# 3. Add all files
-git add .gitattributes .gitignore README.md LICENSE requirements.txt setup_and_run.bat FruitQualityDashboard/
-
-# 4. Commit your files
-git commit -m "Initial commit: Fruit Quality Grading & Defect Quantification Dashboard with CBAM Mask R-CNN"
-
-# 5. Connect to your GitHub repository
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPOSITORY_NAME.git
-
-# 6. Push code and LFS model weights
-git push -u origin main
-```
 
 ---
 
@@ -250,8 +206,8 @@ The script will verify Python, initialize a local virtual environment (`.venv`),
 ### Option 2: Manual Terminal Setup
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY_NAME.git
-cd YOUR_REPOSITORY_NAME/FruitQualityDashboard
+git clone https://github.com/Ashish-1506/Fruit-Quality-Grading-MaskRCNN.git
+cd Fruit-Quality-Grading-MaskRCNN/FruitQualityDashboard
 
 # Create and activate virtual environment
 python -m venv .venv
@@ -299,6 +255,6 @@ This project is licensed under the [MIT License](LICENSE).
   title = {Automated Fruit Quality Grading and Surface Defect Quantification Using Deep Learning and Computer Vision},
   year = {2026},
   publisher = {GitHub},
-  journal = {GitHub repository}
+  howpublished = {\url{https://github.com/Ashish-1506/Fruit-Quality-Grading-MaskRCNN}}
 }
 ```
