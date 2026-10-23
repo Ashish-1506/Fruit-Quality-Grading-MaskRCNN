@@ -17,7 +17,13 @@ from io import BytesIO
 import json
 import os
 from pathlib import Path
+import sys
 from typing import Any, Dict, Optional
+
+# Ensure application directory is in sys.path for cloud environments
+APP_DIR = Path(__file__).resolve().parent
+if str(APP_DIR) not in sys.path:
+    sys.path.insert(0, str(APP_DIR))
 
 import numpy as np
 import pandas as pd

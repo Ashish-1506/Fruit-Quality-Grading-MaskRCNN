@@ -1,4 +1,4 @@
-﻿from collections import OrderedDict
+from collections import OrderedDict
 from pathlib import Path
 from typing import Any, Dict, Optional, Tuple
 
@@ -132,6 +132,23 @@ def load_checkpoint(
             f"Checkpoint file at {path.resolve()} is empty (0 bytes). "
             "Please ensure the file was completely downloaded from Kaggle."
         )
+
+    # Detect Git LFS pointer files and attempt automatic pull
+    if path.stat().st_size < 1024:
+        try:
+            header = path.read_text(encoding="utf-8", errors="ignore")
+            if "git-lfs.github.com" in header:
+                import subprocess
+                # Try pulling LFS objects
+                repo_root = path.resolve().parent.parent.parent
+                subprocess.run(["git", "lfs", "pull"], cwd=str(repo_root), timeout=180, check=False)
+        except Exception:
+            pass
+        if path.stat().st_size < 1024:
+            raise RuntimeError(
+                f"Checkpoint at {path.resolve()} is a Git LFS pointer file, not the binary weights.\n"
+                "To resolve on Streamlit Cloud, ensure 'git-lfs' is in packages.txt, or download the full .pth file."
+            )
 
     if device is None:
         device = get_inference_device()
